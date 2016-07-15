@@ -1,0 +1,283 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	template="/WEB-INF/plantilla/template.xhtml">
+
+	<ui:define name="content">
+		<h:outputScript name="jquery/jquery.js" library="primefaces"
+			target="head" />
+		<script type="text/javascript">
+			function handleRequest(xhr, status, args) {
+			    if(args.validationFailed || xhr.status != "200" || args.error) {
+			        PF('dlgCreaUser').jq.effect("shake", {times:5}, 100);
+			    }
+			    else {
+			        PF('dlgCreaUser').hide();
+			    }
+			}
+			function handleRequestEdit(xhr, status, args) {
+			    if(args.validationFailed || xhr.status != "200") {
+			        PF('confDialogEditUser').jq.effect("shake", {times:5}, 100);
+			    }
+			    else {
+			        PF('confDialogEditUser').hide();
+			    }
+			}
+			function ChangeCase(elem) {
+				elem.value = elem.value.toUpperCase();
+			}
+		</script>
+		<div class="Card ShadowEffect TexAlCenter">
+			<h2>#{msg['pag_adm_usuarios.title']}</h2>
+		</div>
+		<h:form id="frmUsuarios">
+			<p:growl id="msjUsuarios" showDetail="true" showSummary="true"
+				sticky="true" />
+			<p:panel id="pCreaUsuarios">
+
+				<p:commandButton style="display: none;" id="idBotonBusquedaEnter"
+					actionListener="#{usuarioMB.listaTablaEnter}" partialSubmit="true"
+					process="@this :#{p:component('idBotonCriterioBusquedaUsuario')}"
+					update=":#{p:component('datUsuarios')}"></p:commandButton>
+				<p:defaultCommand target="idBotonBusquedaEnter"></p:defaultCommand>
+
+
+				<p:commandButton value="#{msg['new']}" icon="fa fa-plus"
+					actionListener="#{usuarioMB.nuevoUsuario}"
+					oncomplete="PF('dlgCreaUser').show();"
+					update=":#{p:component('pCreaUser')}" />
+			</p:panel>
+			<p:panel id="pUsuarios">
+				<p:dataTable id="datUsuarios"
+					value="#{usuarioMB.listaTodosUsuarios}" var="regUsuarios"
+					paginator="true" paginatorPosition="bottom" rows="10">
+					<p:column style="text-align:center;">
+						<f:facet name="header">
+							<h:inputText id="idBotonCriterioBusquedaUsuario"
+								onchange="validarOnChange(this,'letrasynumeros','dlgCharEspecPage')"
+								onkeypress="return validarKeyPress(event,'letrasynumeros')"
+								value="#{usuarioMB.lsCriterioBusquedaUsuario}">
+								<p:watermark value="#{msg['pag_adm_usuarios.find_user']}"
+									for="idBotonCriterioBusquedaUsuario" />
+							</h:inputText>
+						</f:facet>
+						<h:outputText value="#{regUsuarios.usuario}" />
+					</p:column>
+					<p:column headerText="#{msg['pag_adm_usuarios.field_email']}" style="text-align:center;">
+						<h:outputText value="#{regUsuarios.correo}" />
+					</p:column>
+					<p:column headerText="#{msg['status']}" style="text-align:center;">
+						<h:outputText value="#{msg[regUsuarios.estado]}" />
+					</p:column>
+					<p:column headerText="#{msg['actions']}" style="text-align:center;">
+						<p:commandButton icon="fa fa-key"
+							style="border:none;"
+							title="#{msg['pag_adm_usuarios.reset_password']}"
+							actionListener="#{usuarioMB.elegirDatoUsuario}"
+							oncomplete="PF('confRstClave').show();" process="@this"
+							partialSubmit="true">
+							<f:attribute name="datosUsuario" value="#{regUsuarios}" />
+						</p:commandButton>
+						<p:commandButton icon="fa fa-lightbulb-o"
+							style="border:none;"
+							title="#{msg['pag_adm_usuarios.active_deactive']}"
+							actionListener="#{usuarioMB.elegirDatoUsuario}"
+							oncomplete="PF('confDialogUsuario').show();" process="@this"
+							partialSubmit="true">
+							<f:attribute name="datosUsuario" value="#{regUsuarios}" />
+						</p:commandButton>
+						<p:commandButton icon="fa fa-pencil-square-o" title="Editar"
+							style="border:none;"
+							actionListener="#{usuarioMB.elegirDatoUsuario}"
+							oncomplete="PF('confDialogEditUser').show();"
+							update=":#{p:component('pEditUser')}" process="@this"
+							partialSubmit="true">
+							<f:attribute name="datosUsuario" value="#{regUsuarios}" />
+						</p:commandButton>
+						<p:commandButton icon="fa fa-exchange"
+							style="border:none;" title="#{msg['pag_adm_usuarios.assign_role']}"
+							actionListener="#{usuarioMB.asignarRolUsuario}"
+							oncomplete="PF('dlgUserRol').show();" process="@this"
+							update=":#{p:component('panelDatosAsignacion')}"
+							partialSubmit="true">
+							<f:attribute name="datosUsuario" value="#{regUsuarios}" />
+						</p:commandButton>
+					</p:column>
+				</p:dataTable>
+			</p:panel>
+		</h:form>
+
+		<p:dialog id="dialUsuario" widgetVar="confDialogUsuario"
+			showEffect="clip" hideEffect="clip" resizable="false"
+			header="#{msg['pag_adm_usuarios.change_status']}" appendTo="@(body)" modal="true"
+			draggable="false">
+			<h:form id="frmEstUser">
+				<p:panel>
+					<h:outputText value="#{msg['confirm_transaction']}" />
+					<br />
+					<br />
+					<h:panelGrid border="0" columns="2">
+						<p:commandButton icon="fa fa-check" title="#{msg['save']}"
+							actionListener="#{usuarioMB.cambiarEstadoUsuarios}"
+							oncomplete="PF('confDialogUsuario').hide();"
+							update=":#{p:component('pUsuarios')}, :#{p:component('datUsuarios')}, :#{p:component('msjUsuarios')}" />
+						<p:commandButton icon="fa fa-close"
+							oncomplete="PF('confDialogUsuario').hide();" title="#{msg['cancel']}" />
+					</h:panelGrid>
+				</p:panel>
+			</h:form>
+		</p:dialog>
+		
+		<p:dialog id="dlgRstClave" widgetVar="confRstClave"
+			showEffect="clip" hideEffect="clip" resizable="false"
+			header="#{msg['pag_adm_usuarios.reset_password']}" appendTo="@(body)" modal="true"
+			draggable="false">
+			<h:form id="frmRstClave">
+				<p:panel>
+					<h:outputText value="#{msg['confirm_transaction']}" />
+					<br />
+					<br />
+					<h:panelGrid border="0" columns="2">
+						<p:commandButton icon="fa fa-check" title="#{msg['save']}"
+							actionListener="#{usuarioMB.resetClave}"
+							oncomplete="PF('confRstClave').hide();"
+							update=":#{p:component('pUsuarios')}, :#{p:component('datUsuarios')}, :#{p:component('msjUsuarios')}" />
+						<p:commandButton icon="fa fa-close"
+							oncomplete="PF('confRstClave').hide();" title="#{msg['cancel']}" />
+					</h:panelGrid>
+				</p:panel>
+			</h:form>
+		</p:dialog>
+
+
+		<p:dialog id="dialEditUser" widgetVar="confDialogEditUser"
+			showEffect="clip" hideEffect="clip" resizable="false"
+			header="#{msg['edit']}" appendTo="@(body)" modal="true"
+			draggable="false" style="width:30%">
+
+			<h:form id="frmEditUser">
+
+				<p:messages id="notif" showDetail="false" autoUpdate="true"
+					closable="true" />
+				<p:panel id="pEditUser">
+					<h:panelGrid id="pgEditUser" border="0" columns="2">
+						<h:outputText value="Usuario: " />
+						<p:inputText value="#{usuarioMB.usuario.usuario}" readonly="true" />
+						<h:outputText value="#{msg['pag_adm_usuarios.name_label']}: " />
+						<p:inputText value="#{usuarioMB.usuario.nombre}"
+							onchange="validarOnChange(this,'todos','dlgCharEspecPage')"
+							onkeypress="return validarKeyPress(event,'todos')"
+							onblur="ChangeCase(this);" required="true"
+							requiredMessage="#{msg['pag_adm_usuarios.name_required']}" />
+						<h:outputText value="#{msg['pag_adm_usuarios.email_label']}: " />
+						<p:inputText value="#{usuarioMB.usuario.correo}"
+							requiredMessage="#{msg['pag_adm_usuarios.email_required']}" required="true"
+							onchange="validarOnChange(this,'correo','dlgCharEspecPage')"
+							onkeypress="return validarKeyPress(event,'correo')"
+							maxlength="150" />
+						<p:commandButton icon="fa fa-check"
+							actionListener="#{usuarioMB.editarUsuario}" partialSubmit="true"
+							oncomplete="handleRequestEdit(xhr, status, args);"
+							value="#{msg['save']}" process="pgEditUser"
+							update=":#{p:component('datUsuarios')} :#{p:component('pUsuarios')}" />
+						<p:commandButton icon="fa fa-close"
+							oncomplete="PF('confDialogEditUser').hide();" value="#{msg['cancel']}" />
+					</h:panelGrid>
+				</p:panel>
+
+			</h:form>
+
+		</p:dialog>
+
+
+
+		<p:dialog id="dlgCreaUser" widgetVar="dlgCreaUser" draggable="false"
+			closeOnEscape="true" modal="true" header="Nuevo usuario"
+			appendTo="@(body)" resizable="false" showEffect="clip"
+			hideEffect="clip">
+			<h:form id="frmCreaUser1">
+
+				<p:messages id="idMsj" showDetail="false" autoUpdate="true"
+					closable="true" />
+				<p:panel id="pCreaUser">
+					<h:panelGrid id="pgCreaUser" border="0" columns="2">
+						<h:outputText value="#{msg['pag_adm_usuarios.user_label']}:* " />
+						<p:inputText id="txtUsuario"
+							requiredMessage="#{msg['pag_adm_usuarios.user_required']}"
+							value="#{usuarioMB.usuario.usuario}" onblur="ChangeCase(this);"
+							onchange="validarOnChange(this,'letras','dlgCharEspecPage')"
+							onkeypress="return validarKeyPress(event,'letras')"
+							required="true" maxlength="30" />
+						<h:message for="txtUsuario" />
+						<h:outputText value="" />
+						<h:outputText value="#{msg['pag_adm_usuarios.name_label']}:* " />
+						<p:inputText value="#{usuarioMB.usuario.nombre}" required="true"
+							onblur="ChangeCase(this);" id="txtNombre" maxlength="150"
+							onchange="validarOnChange(this,'todos','dlgCharEspecPage')"
+							onkeypress="return validarKeyPress(event,'todos')"
+							requiredMessage="#{msg['pag_adm_usuarios.name_required']}" />
+						<h:message for="txtNombre" />
+						<h:outputText value="" />
+						<h:outputText value="#{msg['pag_adm_usuarios.email_label']}:* " />
+						<p:inputText id="txtMail"
+							requiredMessage="#{msg['pag_adm_usuarios.email_required']}"
+							value="#{usuarioMB.usuario.correo}" required="true"
+							onchange="validarOnChange(this,'correo','dlgCharEspecPage')"
+							onkeypress="return validarKeyPress(event,'correo')"
+							maxlength="150">
+						</p:inputText>
+						<h:message for="txtMail" />
+						<h:outputText value="" />
+						<p:commandButton icon="fa fa-check"
+							actionListener="#{usuarioMB.ingresarUsuario}"
+							process="pgCreaUser"
+							oncomplete="handleRequest(xhr, status, args);" value="#{msg['save']}"
+							partialSubmit="true"
+							update=":#{p:component('pUsuarios')}, :#{p:component('datUsuarios')}" />
+						<p:commandButton icon="fa fa-close"
+							oncomplete="PF('dlgCreaUser').hide();" value="#{msg['cancel']}" />
+					</h:panelGrid>
+				</p:panel>
+
+			</h:form>
+
+		</p:dialog>
+
+
+
+		<h:form id="frmRol">
+			<p:dialog id="dlgUserRol" widgetVar="dlgUserRol" draggable="false"
+				closeOnEscape="true" modal="true" header="#{msg['pag_adm_usuarios.assign_roles']}"
+				appendTo="@(body)" resizable="false" showEffect="clip"
+				hideEffect="clip">
+				<p:panel id="panelDatosAsignacion" styleClass="ui-panel">
+					<h:panelGrid columns="1" id="asignacionRol">
+						<p:pickList id="pickList" value="#{usuarioMB.rolesPresentar}"
+							var="rolesPick" converter="rolConverter"
+							itemLabel="#{rolesPick.rol}" itemValue="#{rolesPick}"
+							addLabel="#{msg['add']}" addAllLabel="#{msg['add_all']}" removeLabel="#{msg['remove']}"
+							removeAllLabel="#{msg['remove_all']}" style="text-align:center;"
+							showSourceControls="true" showTargetControls="true">
+							<f:facet name="sourceCaption">
+								<h:outputLabel value="#{msg['pag_adm_usuarios.available_roles']}" />
+							</f:facet>
+							<f:facet name="targetCaption">
+								<h:outputLabel value="#{msg['pag_adm_usuarios.assigned_roles']}" />
+							</f:facet>
+						</p:pickList>
+					</h:panelGrid>
+					<p:commandButton icon="fa fa-check"
+						actionListener="#{usuarioMB.actualizarRoles}" partialSubmit="true"
+						oncomplete="PF('dlgUserRol').hide();" value="#{msg['save']}"
+						process="panelDatosAsignacion"
+						update=":#{p:component('pUsuarios')}, :#{p:component('datUsuarios')}, :#{p:component('msjUsuarios')}" />
+					<p:commandButton icon="fa fa-close"
+						oncomplete="PF('dlgUserRol').hide();" value="#{msg['cancel']}" />
+				</p:panel>
+			</p:dialog>
+		</h:form>
+	</ui:define>
+
+</ui:composition>

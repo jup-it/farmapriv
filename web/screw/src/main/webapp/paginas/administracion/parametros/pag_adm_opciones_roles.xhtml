@@ -1,0 +1,73 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	template="/WEB-INF/plantilla/template.xhtml">
+
+	<ui:define name="content">
+		<h:outputScript name="jquery/jquery.js" library="primefaces"
+			target="head" />
+		<div class="Card ShadowEffect TexAlCenter">
+			<h2>#{msg['pag_adm_opciones_roles.title']}</h2>
+		</div>
+		<h:form id="frmOpcionesRoles">
+			<p:panel id="pRegOpcRol">
+				<p:dataTable id="datOpcRol" var="opcAsig"
+					value="#{opcionRolMB.listaOpciones}" rowIndexVar="indexRow">
+					<p:column headerText="#{msg['pag_adm_opciones_roles.matrix_title']}" style="text-align:center;">
+						<h:outputText value="#{opcAsig.nombre}" />
+					</p:column>
+					<p:columns var="rolAct" value="#{opcionRolMB.listaRolesActivos}"
+						style="text-align:center;" columnIndexVar="indexCol">
+						<f:facet name="header">
+							<h:outputText value="#{rolAct.rol}" />
+						</f:facet>
+						<p:selectBooleanCheckbox id="checkOp"
+							value="#{opcionRolMB.opcionesAsignadas[indexCol][indexRow]}">
+							<p:ajax process=":#{p:component('pRegOpcRol')}" partialSubmit="true"
+								update=":#{p:component('pRegOpcRol')}"
+								listener="#{opcionRolMB.ingresoActualizarOpcionesRoles(rolAct,opcAsig)}" />
+						</p:selectBooleanCheckbox>
+					</p:columns>
+					<f:facet name="footer">
+						<p:commandButton value="#{msg['pag_adm_opciones_roles.add_roles']}" icon="fa fa-plus"
+							onclick="PF('dlgRoles').show();" rendered="false"/>
+					</f:facet>
+				</p:dataTable>
+			</p:panel>
+			<p:dialog header="#{msg['pag_adm_opciones_roles.add_roles']}" widgetVar="dlgRoles" appendTo="@(body)" modal="true">
+		        <p:messages id="mensajesRol" showDetail="false" autoUpdate="true"></p:messages>
+		        <p:panelGrid columns="2"  styleClass="companyHeaderGrid" >
+		        	<h:panelGroup style="vertical-align:top;">
+		        		<p:panelGrid columns="1"  styleClass="companyHeaderGrid">
+		        			<h:panelGroup>
+			        			<h:outputText value="#{msg['pag_adm_opciones_roles.role']}" />
+			        			<p:spacer width="5" height="2" />
+			        			<p:inputText id="idRolDes" 
+			        				value="#{opcionRolMB.nuevoRol.rol}" 
+			        				required="true"
+									onchange="validarOnChange(this,'letras','dlgCharEspecPage')"
+									onkeypress="return validarKeyPress(event,'letras')"
+			        				requiredMessage="#{msg['pag_adm_opciones_roles.role_field_isrequired']}">
+			        			</p:inputText>
+		        			</h:panelGroup>
+		        			<p:commandButton value="#{msg['pag_adm_opciones_roles.create_role']}" actionListener="#{opcionRolMB.guardarRolNuevo}" partialSubmit="true" process="@this :#{p:component('idRolDes')}"
+		        			update=":#{p:component('idTableRol')} :#{p:component('datOpcRol')} :#{p:component('idRolDes')} :#{p:component('mensajesRol')}" icon="fa fa-save"/>
+		        		</p:panelGrid>
+		        	</h:panelGroup>
+			        <p:dataTable id="idTableRol" value="#{opcionRolMB.listaRolesTodos}" var="rol" style="width: 370px;" scrollable="true" scrollHeight="170">
+			        	<p:column headerText="#{msg['pag_adm_opciones_roles.role']}" style="text-align:center;" >
+		  	  	    		<h:outputText value="#{rol.rol}" />	  	  	    		
+					    </p:column>
+					    <p:column headerText="#{msg['status']}" style="text-align:center;">
+		  	  	    		<p:commandButton value="#{msg[rol.estado]}" actionListener="#{opcionRolMB.activarInactivarRol(rol)}" partialSubmit="true" 
+		  	  	    		process="@this" update=":#{p:component('idTableRol')} :#{p:component('datOpcRol')}"/>	  	  	    		
+					    </p:column>
+			        </p:dataTable>
+		        </p:panelGrid>       
+		    </p:dialog>   
+		</h:form>
+	</ui:define>
+
+</ui:composition>

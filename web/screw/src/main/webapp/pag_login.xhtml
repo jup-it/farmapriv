@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+	<title>#{msg['login_page_title']}</title>
+	<ui:insert name="head" />
+	<f:facet name="first">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"/>
+		<meta name="apple-mobile-web-app-capable" content="yes" />
+		<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+		<meta http-equiv="Pragma" content="no-cache" />
+		<meta http-equiv="Expires" content="0" />
+    </f:facet>
+    <link rel="shortcut icon" href="#{resource['imagenes/favicon.ico']}" type="image/x-icon" />
+    <h:outputScript name="js/archivo.js" target="head"/>
+    <h:outputStylesheet name="css/core-layout.css" library="modena-layout" />
+    <h:outputStylesheet name="css/animate.css" library="modena-layout" />
+    <h:outputStylesheet name="css/modena-font.css" library="modena-layout" />
+    <h:outputStylesheet name="css/ripple-effect.css" library="modena-layout" />
+    <h:outputStylesheet name="css/font-awesome.css" library="modena-layout" />
+    <h:outputStylesheet name="css/modena-layout.css" library="modena-layout" />
+    <h:outputStylesheet name="decorate.css" library="css" />
+</h:head>
+
+<h:body styleClass="GrayModena Geometry" style="height:auto;">
+    <div class="Wid90 DispBlock MarAuto MarTopPerc5 TexAlCenter">
+            <div class="Wid33 MarAuto WidAutoOnMobile">
+                <h:graphicImage name="uglogo.png" library="imagenes" style="width:40%; max-width:100px;"/>
+                <div class="EmptyBox30"></div>
+                <div class="Card ShadowEffect">
+                	<h:form method="post" novalidate="" spellcheck="false">
+                    <div class="EmptyBox20"></div>
+                    <div class="Wid100 OvHidden BigTopic Fs30"><i class="icon-lab Fs60 DispBlock"></i>#{msg['pag_login.tab_login']}</div>
+                    <div class="EmptyBox30"></div>
+                    <div class="Wid100">
+                    	<p:inputText placeholder="#{msg['pag_login.username']}" autocomplete="false" onblur="ChangeCase(this);" value="#{loginMB.usuario}" styleClass="Wid80 TexAlCenter Fs18"/>
+                    </div>
+                    <div class="EmptyBox10"></div>
+                    <div class="Wid100">
+                    	<p:inputText type="password" value="#{loginMB.clave}" placeholder="#{msg['pag_login.password']}" styleClass="Wid80 TexAlCenter Fs18"/>
+                    </div>
+                    <div class="EmptyBox30"></div>
+                    <div class="Wid100 Fleft Responsive100">
+                    <p:commandButton value="#{msg['pag_login.btn_login']}" icon="fa fa-sign-in" 
+                    	styleClass="Wid100 Fs18 White RaisedButton Fright FloatNoneOnMobile" 
+                    	action="#{loginMB.iniciarSesion}"/></div>
+                    <div class="EmptyBox20"></div>
+                    </h:form>
+                    <div class="Separator"></div>
+                     <h:form method="post" novalidate="" spellcheck="false">
+                    <div class="Wid100 OvHidden BigTopic Fs30">#{msg['pag_login.tab_olvido_clave']}</div>
+                    <div class="Wid100">
+                        <div class="Wid100">
+                        	<p:inputText value="#{loginMB.usuario}" placeholder="#{msg['pag_login.username']}" 
+                        		onblur="ChangeCase(this);" styleClass="Wid80 TexAlCenter Fs18" autocomplete="false"/>
+                        </div>
+                        <div class="EmptyBox10"></div>
+                        <div class="Wid100">
+                        	<p:inputText value="#{loginMB.codigoAutorizacion}" placeholder="#{msg['pag_login.aut_code']}" styleClass="Wid80 TexAlCenter Fs18"/>
+                        </div>
+                        <div class="EmptyBox10"></div>
+                        <p:commandButton  value="#{msg['pag_login.solicitar_reset_clave']}" 
+                        	action="#{loginMB.resetClave}" ajax="#{loginMB.reset}" icon="fa fa-lock" update="@form"
+                        	styleClass="Wid100 Fs18 White RaisedButton"/>
+                    </div>
+                    <div class="EmptyBox20"></div>
+                    </h:form>
+                </div>
+                <div class="Wid100 TexAlCenter MarTop20 Fs14 FontRobotoRegular Gray">
+                        <i class="fa fa-copyright"></i> #{msg['copyright']}
+                </div>
+                <p:ajaxStatus onstart="PF('statusDialog').show()" onsuccess="PF('statusDialog').hide()" />
+ 
+				<p:dialog widgetVar="statusDialog" modal="true" draggable="false" closable="false" resizable="false" showHeader="false">
+				    <p:graphicImage value="/resources/imagenes/barra_ajax.gif" />
+				</p:dialog>
+            </div>
+        </div>
+</h:body>
+
+</html>

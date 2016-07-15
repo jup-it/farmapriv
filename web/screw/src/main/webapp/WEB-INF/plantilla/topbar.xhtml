@@ -1,0 +1,68 @@
+<ui:composition 
+
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:p="http://primefaces.org/ui">
+    
+    
+    <!-- TOPBAR START -->
+    <div id="layout-topbar">
+    	<h:form>
+        <a id="mobile-menu-button">
+            <span class="ButtonLine" id="ButtonLine1"></span>
+            <span class="ButtonLine" id="ButtonLine2"></span>
+            <span class="ButtonLine" id="ButtonLine3"></span>
+        </a>
+        <a href="#" id="logo">
+            <h:graphicImage name="logo.PNG" styleClass="Fleft" library="imagenes" />
+        </a>
+        
+        <a id="show-top-menu" class="ShowOnMobile ripplelink"><i class="icon-more_vert" id="active"></i><i class="icon-close DispNone" id="passive"></i> </a>
+        
+        <ul id="top-menu">
+            <li>
+                <a class="ripplelink"><i class="icon-search"></i> <span class="ShowOnMobile">Search Here</span></a>
+                <ul>
+                    <li>
+                        <a href="#"><i class="icon-search"></i><input type="text"/> </a>
+                    </li>
+                </ul>
+            </li>
+            <li>
+                <a class="ripplelink"><i class="icon-archive"></i> <span class="ShowOnMobile">Task Manager</span></a>
+                <ul>
+                </ul>
+            </li>
+            <li>
+                <a class="ripplelink"><i class="icon-notifications_none"></i> <span class="ShowOnMobile">Notifications</span></a>
+                <ul>
+                </ul>
+            </li>
+            <li>
+                <a class="ripplelink"><i class="icon-cog"></i> <span class="ShowOnMobile">Settings</span></a>
+                <ul>
+                </ul>
+            </li>
+            <li>
+                <a class="ripplelink"><i class="icon-power"></i> <span class="ShowOnMobile">System</span></a>
+                <ul>
+                    <li>
+                     <p:link outcome="/paginas/generales/pag_gen_cambio_clave" >
+    						<span class="Blue"><i class="icon-airline_seat_individual_suite Fs30 DispBlock"></i>#{msg['topbar.change_password']}</span>
+   					</p:link>
+                   	</li>
+                    <li>
+                    	<h:commandLink action="#{loginMB.cerrarSesion}" >
+    						<span class="Blue"><i class="icon-vpn_key Fs30 DispBlock"></i> #{msg['topbar.logout']}</span>
+    					</h:commandLink>
+                   	</li>
+                </ul>
+            </li>
+        </ul>
+        </h:form>
+    </div>
+    <!-- TOPBAR END -->
+    
+</ui:composition>

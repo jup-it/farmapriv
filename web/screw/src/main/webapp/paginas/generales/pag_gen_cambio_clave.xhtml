@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+	<title>#{msg['pag_gen_cambio_clave.tab_title']}</title>
+	<ui:insert name="head" />
+	<f:facet name="first">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"/>
+		<meta name="apple-mobile-web-app-capable" content="yes" />
+		<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+		<meta http-equiv="Pragma" content="no-cache" />
+		<meta http-equiv="Expires" content="0" />
+    </f:facet>
+        
+    <h:outputStylesheet name="css/core-layout.css" library="modena-layout" />
+    <h:outputStylesheet name="css/animate.css" library="modena-layout" />
+    <h:outputStylesheet name="css/modena-font.css" library="modena-layout" />
+    <h:outputStylesheet name="css/ripple-effect.css" library="modena-layout" />
+    <h:outputStylesheet name="css/font-awesome.css" library="modena-layout" />
+    <h:outputStylesheet name="css/modena-layout.css" library="modena-layout" />
+    <h:outputStylesheet name="decorate.css" library="css" />
+</h:head>
+
+<h:body styleClass="GrayModena Geometry" style="height:auto;">
+    <div class="Wid90 DispBlock MarAuto MarTopPerc5 TexAlCenter">
+            <div class="Wid33 MarAuto WidAutoOnMobile">
+                <h:graphicImage name="ucsglogo.png" library="imagenes" style="width:40%; max-width:100px;"/>
+                <div class="EmptyBox30"></div>
+                <div class="Card ShadowEffect">
+                	<h:form method="post" novalidate="" spellcheck="false">
+                    <div class="EmptyBox20"></div>
+                    <div class="Wid100 OvHidden BigTopic Fs30"><i class="icon-lab Fs60 DispBlock"></i>#{msg['pag_login.tab_login']}</div>
+                    <div class="EmptyBox30"></div>
+                    <div class="Wid100">
+                    	<p:inputText placeholder="#{msg['pag_login.username']}" autocomplete="false" value="#{loginMB.usuario}" styleClass="Wid80 TexAlCenter Fs18" disabled="true"/>
+                    </div>
+                    <div class="EmptyBox10"></div>
+                    <div class="Wid100">
+                    	<p:inputText type="password" value="#{loginMB.clave}" placeholder="#{msg['pag_gen_cambio_clave.new_password']}" styleClass="Wid80 TexAlCenter Fs18"/>
+                    </div>
+                    <div class="EmptyBox10"></div>
+                    <div class="Wid100">
+                    	<p:inputText type="password" value="#{loginMB.claveConfirmacion}" placeholder="#{msg['pag_gen_cambio_clave.password_confirm']}" styleClass="Wid80 TexAlCenter Fs18"/>
+                    </div>
+                    <div class="EmptyBox30"></div>
+                    <div class="Wid100 Fleft Responsive100">
+                    <p:commandButton value="#{msg['pag_gen_cambio_clave.change_passsword']}" icon="fa fa-sign-in" 
+                    	styleClass="Wid100 Fs18 White RaisedButton Fright FloatNoneOnMobile" 
+                    	action="#{loginMB.cambiarClave}" ajax="false"/>
+                    <p:commandButton value="#{msg['cancel']}" icon="fa fa-sign-in" 
+                    	styleClass="Wid100 Fs18 White RaisedButton Fright FloatNoneOnMobile" 
+                    	action="#{loginMB.cerrarSesion}" ajax="false"/>	
+                    </div>
+                    <div class="EmptyBox20"></div>
+                    </h:form>
+                </div>
+                <div class="Wid100 TexAlCenter MarTop20 Fs14 FontRobotoRegular Gray">
+                        <i class="fa Red"></i> #{loginMB.descExpClave}
+                </div>
+                <p:ajaxStatus onstart="PF('statusDialog').show()" onsuccess="PF('statusDialog').hide()" />
+ 
+				<p:dialog widgetVar="statusDialog" modal="true" draggable="false" closable="false" resizable="false" showHeader="false">
+				    <p:graphicImage value="/resources/imagenes/barra_ajax.gif" />
+				</p:dialog>
+            </div>
+        </div>
+</h:body>
+
+</html>

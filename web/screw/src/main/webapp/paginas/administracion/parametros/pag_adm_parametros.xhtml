@@ -1,0 +1,100 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	template="/WEB-INF/plantilla/template.xhtml">
+
+	<ui:define name="content">
+		<h:outputScript name="jquery/jquery.js" library="primefaces"
+			target="head" />
+		<div class="Container100">
+			<div class="ContainerIndent">
+				<div class="Card ShadowEffect TexAlCenter">
+                    <h2>#{msg['pag_adm_parametros.title']}</h2>
+                </div>
+				<h:form id="frmParametros">
+					<div class="Container40 Responsive">
+						<div class="ContainerIndent">
+							<p:panel header="#{msg['pag_adm_parametros.panel_ing_title']}" id="pDatos">
+								<h:panelGrid columns="2" styleClass="Container100 ContainerIndent">
+									<h:outputText value="#{msg['pag_adm_parametros.parameter_type']}: " style="width:30%" />
+									<p:selectOneMenu id="selectTipo" style="width:70%"
+										value="#{parametrosMB.idTipoParametro}">
+										<f:selectItem itemLabel="Seleccione Tipo" itemValue="" />
+										<f:selectItems value="#{parametrosMB.listaTipoParametro}"
+											var="tipoPar" itemLabel="#{tipoPar.nombre}"
+											itemValue="#{tipoPar.id}" />
+									</p:selectOneMenu>
+									<h:outputText value="#{msg['pag_adm_parametros.parameter_name']}:" style="width:30%"/>
+									<p:inputText style="width:70%"
+										onchange="validarOnChange(this,'letrasyguion','dlgCharEspecPage')"
+										onkeypress="return validarKeyPress(event,'letrasyguion')"
+										value="#{parametrosMB.parametroIngreso.nombre}" />
+									<h:outputText value="#{msg['pag_adm_parametros.parameter_value']}:" style="width:30%"/>
+									<p:inputTextarea value="#{parametrosMB.parametroIngreso.valor}"
+										style="resize:none;width:70%" autoResize="false" rows="5" />
+									<h:outputText value="#{msg['pag_adm_parametros.description']}:" />
+									<p:inputTextarea
+										value="#{parametrosMB.parametroIngreso.descripcion}"
+										style="resize:none;" autoResize="false" rows="5" />
+								</h:panelGrid>
+								<p:commandButton value="#{msg['save']}" partialSubmit="true"
+									icon="fa fa-save"
+									rendered="#{parametrosMB.mostrarBotonGuardar}"
+									update="frmParametros" process="frmParametros"
+									actionListener="#{parametrosMB.ingresoParametroSistema}"></p:commandButton>
+								<p:commandButton value="#{msg['update']}" partialSubmit="true"
+									icon="fa fa-save"
+									rendered="#{parametrosMB.mostrarBotonActualizar}"
+									update="frmParametros" process="frmParametros:pDatos"
+									actionListener="#{parametrosMB.actualizarParametroSistema}"></p:commandButton>
+								<p:commandButton value="#{msg['cancel']}" partialSubmit="true"
+									icon="fa fa-ban" actionListener="#{parametrosMB.init}"
+									update="@form" process="@form"></p:commandButton>
+								<br />
+								<br />
+								<br />
+								<h:outputText
+									value="#{msg['pag_adm_parametros.advice']}"
+									style="color:#FE2E2E;" />
+							</p:panel>
+						</div>
+					</div>
+
+					<div class="Container60 Responsive">
+						<div class="ContainerIndent">
+							<p:panel header="#{msg['pag_adm_parametros.panel_cons_title']}">
+								<p:dataTable id="datParametros"
+									value="#{parametrosMB.listaParametro}" var="regPar"
+									emptyMessage="#{msg['no_data_found']}"
+									paginatorPosition="bottom" paginator="true" rows="16">
+									<p:column filterBy="#{regPar.tipoParametro.nombre}" width="20%"
+										filterOptions="#{parametrosMB.listaFiltroTiposParametros}"
+										filterMatchMode="exact">
+										<h:outputText value="#{regPar.tipoParametro.nombre}" />
+									</p:column>
+									<p:column filterBy="#{regPar.nombre}" width="25%"
+										filterMatchMode="contains">
+										<p:commandLink update=":frmParametros:pDatos"
+											actionListener="#{parametrosMB.elegirParametro}"
+											process="@this" partialSubmit="true" title="#{msg['update']}">
+											<h:outputText value="#{regPar.nombre}" />
+											<f:attribute name="ParametroActualizar" value="#{regPar}" />
+										</p:commandLink>
+									</p:column>
+									<p:column headerText="#{msg['pag_adm_parametros.parameter_value']}" width="55%">
+										<p:outputLabel id="valParam" value="#{regPar.valor}" />
+										<p:tooltip id="valParamToolTip" for="valParam"
+											showEffect="clip" value="#{regPar.valor}" trackMouse="true" />
+									</p:column>
+								</p:dataTable>
+							</p:panel>
+						</div>
+					</div>
+				</h:form>
+			</div>
+		</div>
+	</ui:define>
+
+</ui:composition>
