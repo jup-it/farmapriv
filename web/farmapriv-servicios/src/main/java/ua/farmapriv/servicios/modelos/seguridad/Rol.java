@@ -22,7 +22,7 @@ import ua.farmapriv.servicios.modelos.EntidadBasica;
  *
  */
 @Entity
-@Table(name="M_ROLES",
+@Table(name="ROL",
 	uniqueConstraints={
 		@UniqueConstraint(columnNames={"rol"})
 	})

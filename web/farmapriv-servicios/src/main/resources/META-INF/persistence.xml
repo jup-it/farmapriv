@@ -4,6 +4,9 @@
 		<provider>org.hibernate.ejb.HibernatePersistence</provider>
 		<jta-data-source>java:/farmaprivPoolDatos</jta-data-source>
 		<class>ua.farmapriv.servicios.modelos.EntidadBasica</class>
+		<class>ua.farmapriv.servicios.modelos.inventario.CategoriaProducto</class>
+		<class>ua.farmapriv.servicios.modelos.parametros.ParametroSistema</class>
+		<class>ua.farmapriv.servicios.modelos.parametros.TipoParametroSistema</class>
 		<class>ua.farmapriv.servicios.modelos.seguridad.Opcion</class>
 		<class>ua.farmapriv.servicios.modelos.seguridad.OpcionRol</class>
 		<class>ua.farmapriv.servicios.modelos.seguridad.Rol</class>

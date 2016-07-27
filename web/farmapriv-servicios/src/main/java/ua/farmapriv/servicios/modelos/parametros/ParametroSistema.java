@@ -22,7 +22,7 @@ import ua.farmapriv.servicios.modelos.EntidadBasica;
  *
  */
 @Entity
-@Table(name="M_PARAMETROS_SISTEMA")
+@Table(name="PAR_SIS")
 @Audited(
 	auditParents={
 		EntidadBasica.class
@@ -39,8 +39,8 @@ public class ParametroSistema extends EntidadBasica implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@SequenceGenerator(name="objGenIDParamSis", sequenceName="SEC_ID_PARAM_SIST", allocationSize=1, initialValue = 1)
-	@GeneratedValue(generator="objGenIDParamSis", strategy=GenerationType.SEQUENCE)
+	@SequenceGenerator(name="genIDParamSis", sequenceName="SEC_ID_PAR_SIS", allocationSize=1, initialValue = 1)
+	@GeneratedValue(generator="genIDParamSis", strategy=GenerationType.SEQUENCE)
 	@Column(name="ID_PARAM_SISTEMA")
 	public Long getId() {
 		return this.id;

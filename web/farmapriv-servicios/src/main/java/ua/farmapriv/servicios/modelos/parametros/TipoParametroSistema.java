@@ -12,7 +12,7 @@ import javax.persistence.*;
  *
  */
 @Entity
-@Table(name="TIPOS_PARAM_SIS")
+@Table(name="TIP_PAR_SIS")
 public class TipoParametroSistema implements Serializable {
 
 	

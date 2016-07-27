@@ -22,7 +22,7 @@ import ua.farmapriv.servicios.modelos.EntidadBasica;
  *
  */
 @Entity
-@Table(name="M_USUARIOS",
+@Table(name="USU",
 	uniqueConstraints={
 		@UniqueConstraint(columnNames={"usuario"})
 	})
@@ -42,7 +42,7 @@ public class Usuario extends EntidadBasica implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@SequenceGenerator(name="objGenIDUsuario", sequenceName="SEC_ID_USUARIO", allocationSize=1, initialValue = 1)
+	@SequenceGenerator(name="objGenIDUsuario", sequenceName="SEC_ID_USU", allocationSize=1, initialValue = 1)
 	@GeneratedValue(generator="objGenIDUsuario", strategy=GenerationType.SEQUENCE)
 	@Column(name="ID_USUARIO")
 	public Long getId() {

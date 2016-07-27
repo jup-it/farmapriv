@@ -21,7 +21,7 @@ import ua.farmapriv.servicios.modelos.EntidadBasica;
  *
  */
 @Entity
-@Table(name="USUARIOS_ROLES")
+@Table(name="USU_ROL")
 @Audited(auditParents={
 		EntidadBasica.class
 })

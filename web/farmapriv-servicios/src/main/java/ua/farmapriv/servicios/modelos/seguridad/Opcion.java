@@ -23,7 +23,7 @@ import ua.farmapriv.servicios.modelos.EntidadBasica;
  *
  */
 @Entity
-@Table(name="M_OPCIONES")
+@Table(name="OPC")
 @Audited(auditParents={
 		EntidadBasica.class
 })
@@ -41,9 +41,9 @@ public class Opcion extends EntidadBasica implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@SequenceGenerator(name="objGenIDOpcion", sequenceName="SEC_ID_OPCION", allocationSize=1, initialValue = 1)
+	@SequenceGenerator(name="objGenIDOpcion", sequenceName="SEC_ID_OPC", allocationSize=1, initialValue = 1)
 	@GeneratedValue(generator="objGenIDOpcion", strategy=GenerationType.SEQUENCE)
-	@Column(name="ID_OPCION")
+	@Column(name="ID_OPC")
 	public Long getIdOpcion() {
 		return this.idOpcion;
 	}
