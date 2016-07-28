@@ -19,10 +19,11 @@ public class CategoriaProducto extends EntidadBasica implements Serializable {
 	private String descripcion;
 	private CategoriaProducto categoriaPadre;
 	private List<CategoriaProducto> categoriasHijas;
+	private List<Producto> productos;
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@SequenceGenerator(name="genIDCatProd", sequenceName="SEC_ID_CAT_PROD", allocationSize=1, initialValue = 1)
+	@SequenceGenerator(name="genIDCatProd", sequenceName="SEC_ID_CAT_PRO", allocationSize=1, initialValue = 1)
 	@GeneratedValue(generator="genIDCatProd", strategy=GenerationType.SEQUENCE)
 	@Column(name="ID_CAT_PROD")
 	public Long getId() {
@@ -55,5 +56,13 @@ public class CategoriaProducto extends EntidadBasica implements Serializable {
 	}
 	public void setCategoriasHijas(List<CategoriaProducto> categoriasHijas) {
 		this.categoriasHijas = categoriasHijas;
-	}  
+	}
+
+	@OneToMany(mappedBy="categoriaProducto")
+	public List<Producto> getProductos() {
+		return productos;
+	}
+	public void setProductos(List<Producto> productos) {
+		this.productos = productos;
+	}
 }
