@@ -25,11 +25,10 @@ public class Producto extends EntidadBasica implements Serializable {
 
 	
 	private Long id;
+	private String codigo;
 	private String descripcion;
 	private CategoriaProducto categoriaProducto;
 	private BigDecimal stock;
-	private BigDecimal costo;
-	private BigDecimal precio;
 	private static final long serialVersionUID = 1L;
 
 	@Id    
@@ -41,6 +40,14 @@ public class Producto extends EntidadBasica implements Serializable {
 	}
 	public void setId(Long id) {
 		this.id = id;
+	}
+
+	@Column(nullable=false,unique=true)
+	public String getCodigo() {
+		return codigo;
+	}
+	public void setCodigo(String codigo) {
+		this.codigo = codigo;
 	}
 
 	public String getDescripcion() {
@@ -64,21 +71,6 @@ public class Producto extends EntidadBasica implements Serializable {
 	}
 	public void setStock(BigDecimal stock) {
 		this.stock = stock;
-	}  
-
-	@Column(nullable=false,scale=4,precision=8)
-	public BigDecimal getPrecio() {
-		return precio;
-	}
-	public void setPrecio(BigDecimal precio) {
-		this.precio = precio;
 	}
 
-	@Column(nullable=false,scale=4,precision=8)
-	public BigDecimal getCosto() {
-		return costo;
-	}
-	public void setCosto(BigDecimal costo) {
-		this.costo = costo;
-	}
 }
