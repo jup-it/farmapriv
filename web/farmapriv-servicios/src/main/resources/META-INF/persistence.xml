@@ -5,7 +5,13 @@
 		<jta-data-source>java:/farmaprivPoolDatos</jta-data-source>
 		<class>ua.farmapriv.servicios.modelos.EntidadBasica</class>
 		<class>ua.farmapriv.servicios.modelos.inventario.CategoriaProducto</class>
+		<class>ua.farmapriv.servicios.modelos.inventario.DetOrdenCompra</class>
+		<class>ua.farmapriv.servicios.modelos.inventario.Kardex</class>
+		<class>ua.farmapriv.servicios.modelos.inventario.Marca</class>
+		<class>ua.farmapriv.servicios.modelos.inventario.OrdenCompra</class>
 		<class>ua.farmapriv.servicios.modelos.inventario.Producto</class>
+		<class>ua.farmapriv.servicios.modelos.inventario.ProductoProveedor</class>
+		<class>ua.farmapriv.servicios.modelos.inventario.Proveedor</class>
 		<class>ua.farmapriv.servicios.modelos.parametros.ParametroSistema</class>
 		<class>ua.farmapriv.servicios.modelos.parametros.TipoParametroSistema</class>
 		<class>ua.farmapriv.servicios.modelos.seguridad.Opcion</class>

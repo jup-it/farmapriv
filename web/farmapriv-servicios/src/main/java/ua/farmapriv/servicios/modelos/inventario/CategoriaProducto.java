@@ -10,10 +10,12 @@ import ua.farmapriv.servicios.modelos.EntidadBasica;
 
 /**
  * Entity implementation class for Entity: CategoriaProducto
+ * @author mesterilla
+ * @version 1.0
  *
  */
 @Entity
-@Table(name="CAT_PROD")
+@Table(name = "CAT_PROD")
 public class CategoriaProducto extends EntidadBasica implements Serializable {
 	private Long id;
 	private String descripcion;
@@ -23,16 +25,17 @@ public class CategoriaProducto extends EntidadBasica implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@SequenceGenerator(name="genIDCatProd", sequenceName="SEC_ID_CAT_PRO", allocationSize=1, initialValue = 1)
-	@GeneratedValue(generator="genIDCatProd", strategy=GenerationType.SEQUENCE)
-	@Column(name="ID_CAT_PROD")
+	@SequenceGenerator(name = "genIDCatProd", sequenceName = "SEC_ID_CAT_PRO", allocationSize = 1, initialValue = 1)
+	@GeneratedValue(generator = "genIDCatProd", strategy = GenerationType.SEQUENCE)
+	@Column(name = "ID_CAT_PROD")
 	public Long getId() {
 		return this.id;
 	}
 
 	public void setId(Long id) {
 		this.id = id;
-	}   
+	}
+
 	public String getDescripcion() {
 		return this.descripcion;
 	}
@@ -42,26 +45,29 @@ public class CategoriaProducto extends EntidadBasica implements Serializable {
 	}
 
 	@ManyToOne
-	@JoinColumn(name="ID_CAT_PADRE")
+	@JoinColumn(name = "ID_CAT_PADRE")
 	public CategoriaProducto getCategoriaPadre() {
 		return categoriaPadre;
 	}
+
 	public void setCategoriaPadre(CategoriaProducto categoriaPadre) {
 		this.categoriaPadre = categoriaPadre;
 	}
 
-	@OneToMany(mappedBy="categoriaPadre")
+	@OneToMany(mappedBy = "categoriaPadre")
 	public List<CategoriaProducto> getCategoriasHijas() {
 		return categoriasHijas;
 	}
+
 	public void setCategoriasHijas(List<CategoriaProducto> categoriasHijas) {
 		this.categoriasHijas = categoriasHijas;
 	}
 
-	@OneToMany(mappedBy="categoriaProducto")
+	@OneToMany(mappedBy = "categoriaProducto")
 	public List<Producto> getProductos() {
 		return productos;
 	}
+
 	public void setProductos(List<Producto> productos) {
 		this.productos = productos;
 	}
